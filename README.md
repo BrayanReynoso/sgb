@@ -1,0 +1,1 @@
+Sistema de Gestión de Biblioteca (SGB) es una aplicación web diseñada para gestionar el catálogo de libros de una biblioteca. Permite a los administradores agregar, actualizar, eliminar y consultar libros, autores y categorías.
