@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="layout::head">
+    <meta charset="UTF-8">
+    <title>Update Category</title>
+</head>
+<body>
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+       <div class="card w-50" >
+          <div class="card-header text-center" style="background-color: #c6e0f1">
+                <h1 class="text-muted cart-title h3"><i class="fa-solid fa-square-pen me-2"></i>Actualizar Categoria</h1>
+          </div>
+           <div class="card-body">
+               <div class="form-container text-start">
+                   <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                       <p th:text="${successMessage}"></p>
+                       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                   </div>
+                   <div th:if="${errorMessage}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                       <p th:text="${errorMessage}"></p>
+                       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                   </div>
+                    <form th:action="@{/sgb/category/update/{id}(id=${category.id})}" method="post" th:object="${category}">
+                        <div class="mb-3">
+                            <label for="name" class="form-label"><i class="fa-solid fa-quote-right me-2"></i>Nombre:</label>
+                            <input id="name" name="name"  class="form-control" th:value="${category.name}">
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input id="status" name="status" class="form-check-input" type="checkbox" th:checked="${category.status}">
+                                <label for="status" class="form-label"><i class="fa-solid fa-toggle-on me-2"></i>Estado Activo</label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2 justify-content-end">
+                            <a href="/sgb/category/list" class="btn btn-outline-secondary me-2">Volver</a>
+                            <div>
+                                <input type="hidden" name="_method" value="put">
+                                <button class="btn btn-primary">Actualizar</button>
+
+                            </div>
+                        </div>
+                    </form>
+               </div>
+           </div>
+       </div>
+    </div>
+
+    <div th:replace="layout::scripts"></div>
+</body>
+</html>

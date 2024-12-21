@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="layout :: head">
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<!-- Navbar -->
+<div th:replace="/shared/Navbar :: navbar"></div>
+
+    <div class="container mt-4">
+       <div class="row">
+          <div class="d-flex flex-row justify-content-between">
+              <h1 class="h2 text-muted mb-4">CRUD BOOKS</h1>
+              <div class="gap-2">
+                  <a href="/sgb/addBook" class="btn btn-outline-success"><i class="fa-solid fa-plus me-2"></i>Registrar nuevo libro</a>
+              </div>
+          </div>
+               <table class="table table-bordered table-hover">
+                   <thead style="background-color: #cce9fc">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Titulo</th>
+                            <th scope="col">Descripccion</th>
+                            <th scope="col">Fecha de publicacion</th>
+                            <th scope="col">Autor</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                   </thead>
+                   <tbody>
+                        <tr th:each="book:${books}">
+                            <td th:text="${book.id}"></td>
+                            <td th:text="${book.title}"></td>
+                            <td th:text="${book.description}"></td>
+                            <td th:text="${book.publishedDate}"></td>
+                            <td th:text="${book.author.name}"></td>
+                            <td>
+    <span th:each="category, iterStat : ${book.categories}"
+          th:text="${iterStat.index != 0 ? ', ' : ''} + ${category.name}">
+    </span>
+                            </td>
+                            <td>
+                                <span th:if="${book.status}" class="badge bg-success">Activo</span>
+                                <span th:unless="${book.status}" class="badge bg-danger">Inactivo</span>
+                            </td>
+                            <td>
+                                <a th:href="@{/sgb/update/{id}(id=${book.id})}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <form
+                                        th:action="@{/sgb/book/changeStatus/{id}(id=${book.id})}"
+                                        method="post"
+                                        class="d-inline"
+                                >
+                                    <input type="hidden" name="_method" value="delete" />
+                                    <button type="submit"
+                                            class="btn btn-danger btn-sm"
+                                            title="Eliminar"
+                                            onclick="confirmarEliminacion(event)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                   </tbody>
+               </table>
+
+       </div>
+
+    </div>
+<!-- SweetAlert2 Script -->
+<div th:replace="layout :: scripts"></div>
+<script>
+    function confirmarEliminacion(event) {
+        event.preventDefault(); // Evita que el formulario se envíe inmediatamente
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡Este Libro ya no estara disponible!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, cambiar estado',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Aquí pones la acción para eliminar el usuario, por ejemplo enviar el formulario
+                event.target.closest('form').submit(); // Esto enviará el formulario si el usuario confirma
+            }
+        });
+    }
+</script>
+</body>
+</html>

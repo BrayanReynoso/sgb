@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="layout::head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="/shared/Navbar :: navbar"></div>
+   <div class="container py-4">
+        <div class="d-flex flex-row justify-content-between mb-4">
+            <h1 class="text-muted h3">CRUD CATEGORIAS</h1>
+            <a href="/sgb/category/register" class="btn btn-outline-success"><i class="fa-solid fa-plus me-2"></i>Registrar nueva categoria</a>
+        </div>
+       <div>
+           <table class="table table-bordered text-center">
+               <thead style="background: #cce9fc">
+                    <tr>
+                        <th class="col">#</th>
+                        <th class="col">Nombre</th>
+                        <th class="col">Estado</th>
+                        <th class="col">Acciones</th>
+                    </tr>
+               </thead>
+               <tbody class="text-center">
+                    <tr th:each="category: ${categories}">
+                        <td th:text="${category.id}"></td>
+                        <td th:text="${category.name}"></td>
+                        <td>
+                            <span th:if="${category.status}" class="badge bg-success">Activo</span>
+                            <span th:unless="${category.status}" class="badge bg-danger">Inactivo</span>
+                        </td>
+                        <td class="d-flex gap-2 justify-content-center">
+                            <a th:href="@{/sgb/category/update/{id}(id=${category.id})}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+
+                            <form th:action="@{/sgb/changeStatus/{id}(id=${category.id})}"
+                                  method="post"
+                            >
+                                <input type="hidden" name="_method" value="delete" />
+                                <button class="btn btn-danger" onclick="confirmActionDelete(event)"><i class="fa-solid fa-trash"></i></button>
+
+                            </form>
+                        </td>
+                    </tr>
+               </tbody>
+
+           </table>
+       </div>
+   </div>
+    <div th:replace="layout::scripts"></div>
+<script>
+       function confirmActionDelete(event){
+           event.preventDefault();
+           Swal.fire({
+               title: "¿Estas seguro?",
+               text: "Esta categoria ya no estara disponible!",
+               icon: "warning",
+               showCancelButton: true,
+               confirmButtonColor: "#3085d6",
+               cancelButtonColor: "#d33",
+               confirmButtonText: "Estoy seguro!"
+           }).then((result) => {
+               if (result.isConfirmed) {
+                   // Aquí pones la acción para eliminar el usuario, por ejemplo enviar el formulario
+                   event.target.closest('form').submit(); // Esto enviará el formulario si el usuario confirma
+               }
+           });
+       }
+
+
+    </script>
+</body>
+</html>

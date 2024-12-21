@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="layout::head">
+    <meta charset="UTF-8">
+    <title>Autores</title>
+</head>
+<body>
+<div th:replace="/shared/Navbar::navbar"></div>
+    <div class="container py-4 ">
+       <div class="d-flex flex-row justify-content-between mb-4">
+           <h1 class="text-muted h3">CRUD AUTORES</h1>
+           <a href="/sgb/author-form" class="btn btn-outline-success"><i class="fa-solid fa-plus me-2"></i>Registrar nuevo author</a>
+       </div>
+        <div>
+            <table class="table table-bordered text-center">
+                <thead style="background-color: #c6e0f1">
+                    <tr>
+                        <th class="col">#</th>
+                        <th class="col">Nombre</th>
+                        <th class="col">Fecha de nacimiento</th>
+                        <th class="col">Estado</th>
+                        <th class="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="author:${authors}">
+                        <td th:text="${author.id}"></td>
+                        <td th:text="${author.name}"></td>
+                        <td th:text="${author.birthDate}"></td>
+                       <td>
+                           <span th:if="${author.status}" class="badge bg-success">Activo</span>
+                           <span th:unless="${author.status}" class="badge bg-danger">Inactivo</span>
+                       </td>
+                        <td>
+                            <a th:href="@{/sgb/author/update-form/{id}(id=${author.id})}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <form th:action="@{/sgb/author/changeStatus/{id}(id=${author.id})}" method="post" class="d-inline">
+                                <input type="hidden" name="_method" value="delete">
+                                <button class="btn btn-danger" type="submit" onclick="confirmChangestatus(event)"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div th:replace="layout::scripts"></div>
+    <script>
+        function confirmChangestatus(event){
+            event.preventDefault();
+            Swal.fire({
+                title: "Estas Seguro?",
+                text: "El autor ya no estara disponible!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Confirmar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                   event.target.closest('form').submit();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

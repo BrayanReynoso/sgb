@@ -1,0 +1,15 @@
+
+<!-- templates/shared/Navbar.html -->
+<nav class="navbar navbar-light" th:fragment="navbar" style="background-color: #c6e0f1">
+  <div class="container-fluid">
+    <a class="navbar-brand text-bold h2 text-muted" href="/sgb/">
+      <i class="fa-solid fa-chart-bar me-2"></i>
+      Sistema de gestion de biblioteca
+    </a>
+    <div class="d-flex gap-2">
+        <a  style="text-decoration: none" href="/sgb/admin"><i class="fa-solid fa-book me-2"></i></i>Libros</a>
+        <a  style="text-decoration: none" href="/sgb/category/list"><i class="fa-solid fa-arrow-up-z-a me-2"></i>Categorias</a>
+        <a  style="text-decoration: none" href="/sgb/author/list"><i class="fa-solid fa-image-portrait me-2"></i>Autores</a>
+    </div>
+  </div>
+</nav>
