@@ -8,7 +8,7 @@ El Sistema de Gestión de Biblioteca (SGB) es una aplicación web diseñada para
 
 ## Tecnologías utilizadas
 - **Backend**: Java 17, Spring Boot 3.4.0, Hibernate, JPA
-- **Frontend**: Thymeleaf
+- **Frontend**: Thymeleaf, Bootstrap 5, DataTables, SweetAlert 2
 - **Base de datos**: MySQL
 - **Arquitectura**: Modelo Vista Controlador (MVC)
 
